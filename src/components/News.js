@@ -13,14 +13,26 @@ export default class News extends Component {
     country:PropTypes.string,
     category:PropTypes.string,
   }
-  constructor(){
-    super();
+  capitalizefirstletter=(string)=>{
+    return string.charAt(0).toUpperCase()+string.slice(1);
+  }
+  constructor(props){
+    super(props);
     console.log("hello");
     this.state={
       articles:[],
       loading:false,
       page:1, 
     }
+    document.title=`${this.capitalizefirstletter(this.props.category)} - NewsMonkey`;
+  }
+  async updatepage(){
+    const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=b0e7f743b1b24303bce5bf864c5f559e&page=1&pageSize=${this.props.pagesize}`;
+    this.setState({loading:true});
+    let data=await fetch(url);
+    let parsedData=await data.json();
+    this.setState({articles: parsedData.articles, totalArticles: parsedData.totalResults,
+      loading:false})
   }
   async componentDidMount(){
     let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=b0e7f743b1b24303bce5bf864c5f559e&page=1&pageSize=${this.props.pagesize}`;
@@ -60,7 +72,7 @@ export default class News extends Component {
   render() {
     return (
       <div className="container my-3">
-           <h1 className='text-center my-4' style={{margin:"30px"}}>NewsMonkey- Top Headlines</h1>
+           <h1 className='text-center my-4' style={{margin:"30px"}}> Top {this.capitalizefirstletter(this.props.category)} Headlines</h1>
           {/* <Spinner/>  The line written below states that if  loading is true then we will run the spinner else don't run it*/}
           {this.state.loading && <Spinner/>}
           <div className='row'>
