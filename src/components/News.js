@@ -72,7 +72,7 @@ export default class News extends Component {
   render() {
     return (
       <div className="container my-3">
-           <h1 className='text-center my-4' style={{margin:"30px"}}> Top {this.capitalizefirstletter(this.props.category)} Headlines</h1>
+           <h1 className='text-center my-4' style={{margin:"30px",paddingTop:'50px'}}> Top {this.capitalizefirstletter(this.props.category)} Headlines</h1>
           {/* <Spinner/>  The line written below states that if  loading is true then we will run the spinner else don't run it*/}
           {this.state.loading && <Spinner/>}
           <div className='row'>
